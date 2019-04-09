@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: recommendation
+    version: v2
+  name: recommendation-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recommendation
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: recommendation
+        version: v2
+    spec:
+      containers:
+      - env:
+        - name: JAVA_OPTIONS
+          value: -Xmx256m
+        image: ceposta/recommendation:v2
+        imagePullPolicy: IfNotPresent
+        name: recommendation
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 8778
+          name: jolokia
+          protocol: TCP
+        - containerPort: 9779
+          name: prometheus
+          protocol: TCP
+        securityContext:
+          privileged: false
