@@ -6,7 +6,7 @@
 desc "Let's use Istio's circuit breaking / outlier detection to kick out those misbehaving pods"
 read -s
 
-run "istioctl replace -f $(relative istio/recommendation-destinationrule-cb.yml) "
+run "kubectl apply -f $(relative istio/recommendation-destinationrule-cb.yml) "
 
 desc "Now we see the offending, delayed service timed out and ejected from the pool"
 read -s
@@ -18,5 +18,5 @@ read -s
 
 desc "easy: just retry!"
 
-run "istioctl replace -f $(relative istio/recommendation-service-retry.yml) "
+run "kubectl apply -f $(relative istio/preference-service-retry.yml) "
 

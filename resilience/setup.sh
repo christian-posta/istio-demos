@@ -13,16 +13,6 @@
 
 SOURCE_DIR=$PWD
 
-# first deploy the core services
-
-# oc apply -f <(istioctl kube-inject --debug -f $(relative kube/recommendation-v2-deployment.yml))
-# turn off v2 for now
-#kubectl scale deploy recommendation-v2 --replicas=0
-
-#oc apply -f <(istioctl kube-inject --debug -f $(relative kube/recommendation-v2-delay-deployment.yml))
-
-# turn off the delay stuff for now
-#kubectl scale deploy recommendation-delay-v2 --replicas=0
 kubectl apply -f <(istioctl kube-inject -f $(relative kube/recommendation-v1-deployment.yml))
 kubectl apply -f $(relative kube/recommendation-service.yml)
 
@@ -34,12 +24,3 @@ kubectl apply -f $(relative kube/customer-service.yml)
 
 kubectl apply -f $(relative istio/customer-gateway.yaml)
 kubectl apply -f $(relative istio/customer-virtual-service.yaml)
-
-#kubectl expose service customer
-#kubectl get route
-
-
-
-
-
-
