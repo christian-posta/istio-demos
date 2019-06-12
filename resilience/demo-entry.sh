@@ -16,7 +16,7 @@ SOURCE_DIR=$PWD
 
 
 desc "So we have v1 of our recommendation service"
-run "kubectl get pod"
+run "kubectl get pod -n istio-demo"
 
 
 desc "That v1 is taking some load..."
@@ -40,9 +40,9 @@ run "istioctl kube-inject  -f $(relative kube/recommendation-v2-deployment.yml)"
 
 desc "Okay. let's actually create it:"
 read -s
-run "kubectl apply -f <(istioctl kube-inject -f $(relative kube/recommendation-v2-deployment.yml))"
+run "kubectl apply -f  $(relative kube/recommendation-v2-deployment.yml) -n istio-demo"
 
-run "kubectl get pod -w"
+run "kubectl get pod -w -n istio-demo"
 
 
 backtotop
@@ -54,12 +54,12 @@ read -s
 #
 # everything to v1?
 desc "Let's route everything to v1"
-run "kubectl apply -f $(relative istio/recommendation-service-all-v1.yml)"
+run "kubectl apply -f $(relative istio/recommendation-service-all-v1.yml) -n istio-demo"
 
 desc "Let's do a canary release of v2"
-run "kubectl apply -f $(relative istio/recommendation-service-v1-v2-90-10.yml)"
+run "kubectl apply -f $(relative istio/recommendation-service-v1-v2-90-10.yml) -n istio-demo"
 
 desc "Using Istio, let's purposefully balance traffic between v1 and v2"
-run "kubectl apply -f $(relative istio/recommendation-service-v1-v2-50-50.yml)"
+run "kubectl apply -f $(relative istio/recommendation-service-v1-v2-50-50.yml) -n istio-demo"
 
 
