@@ -7,6 +7,8 @@ SOURCE_DIR=$PWD
 kubectl create ns istio-demo
 kubectl label namespace istio-demo istio-injection=enabled
 
+sleep 3s
+
 kubectl apply -f $(relative kube/recommendation-v1-deployment.yml) -n istio-demo
 kubectl apply -f $(relative kube/recommendation-service.yml) -n istio-demo
 
