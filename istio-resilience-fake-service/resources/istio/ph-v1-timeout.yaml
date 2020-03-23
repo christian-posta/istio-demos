@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: purchase-history-vs
+spec:
+  hosts:
+  - purchase-history
+  http:
+  - route:
+    - destination:
+        host: purchase-history
+        subset: version-v1
+      weight: 100
+    timeout: 1s
+

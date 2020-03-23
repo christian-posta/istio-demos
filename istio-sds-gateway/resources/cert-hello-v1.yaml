@@ -1,0 +1,19 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: hello-v1-cert
+  namespace: istio-system
+spec:
+  secretName: hello-v1-cert
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: hello-v1.35.239.201.203.xip.io
+  dnsNames:
+  - hello-v1.35.239.201.203.xip.io
+  acme:
+    config:
+    - http01:
+        ingressClass: istio
+      domains:
+      - hello-v1.35.239.201.203.xip.io

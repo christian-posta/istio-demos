@@ -17,6 +17,6 @@ desc "Note, this helps with most of the errors.. let's discuss what's happening 
 
 desc "Clean up/restore -- will come back to retries"
 
-run "kubectl delete virtualservice preference -n istio-demo"
+run "kubectl delete virtualservice.networking preference -n istio-demo"
 run "kubectl apply -f $(relative istio/customer-virtual-service.yaml) -n istio-demo"
 run "kubectl apply -f $(relative istio/recommendation-service-v1-v2-50-50.yml) -n istio-demo"
