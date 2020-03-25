@@ -1,0 +1,28 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "RequestAuthentication"
+metadata:
+  name: jwt-soloio-reqauth
+  namespace: istioinaction
+spec:
+  selector:
+    matchLabels:
+      app: web-api
+  jwtRules:
+  - issuer: "solo.io"
+    jwks: |
+      { "keys":[ {"kty":"RSA","e":"AQAB","kid":"858d304f-6df9-463e-a763-b735a4449857","n":"x7s5_6vgGPoW1PKkSMkau-Xr9JVZJNbqKXJ7RWKCqPxL5Vtj8II7lPi8d-x60f54oJTnyL_0zMVVsSq3msDhqzBSMpCUCR2q-pHjS_29rrFBlBHy1ty8kiMo-qXZn3SmSqGRo53bdWoiQ6ZWVZ2mkgYpdlNzNaSUe8AOQKnxBC3rBwx3-0g9RJvd4MM46YkN6Epr_NUKN___osqzfVfNoG9YLp1pbatjpqvO1XlxX4qCNLScY5FOFrkTf95O3a3Y195o89D9XwULWT1baVuO_z7Ueug68b0t51mGXuEC572DmEbc8xHLnVfLM18QADvOnSzqY6vtIQcuGE_V_c7ATQ"}]}
+
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: jwt-soloio-authz
+ namespace: istioinaction
+spec:
+ selector:
+   matchLabels:
+     app: web-api
+ rules:
+ - from:
+   - source:
+       requestPrincipals: ["*"]

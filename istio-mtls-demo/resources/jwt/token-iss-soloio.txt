@@ -1,0 +1,13 @@
+{
+  "alg": "RS256",
+  "typ": "JWT"
+}
+
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "iss": "solo.io",
+  "aud": ["gloo"],
+  "admin": true,
+  "iat": 1516239022
+}
