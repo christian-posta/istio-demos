@@ -9,6 +9,7 @@ kubectl --context $CLUSTER_1 create secret generic cacerts -n istio-system \
     --from-file=resources/certs/root-cert.pem \
     --from-file=resources/certs/cert-chain.pem
 istioctl --context $CLUSTER_1 manifest apply -f resources/istio/values-istio-multicluster-gateways.yaml    
+
 kubectl --context $CLUSTER_1 apply -f - <<EOF
 apiVersion: v1
 kind: ConfigMap
