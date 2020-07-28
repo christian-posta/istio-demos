@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fakeservice
+  name: bad-fakeservice
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fakeservice
+  template:
+    metadata:
+      labels:
+        app: fakeservice
+        type: bad
+    spec:
+      serviceAccountName: fakeservice
+      containers:
+      - env:
+        - name: "ERROR_TYPE"
+          value: "http_error"
+        - name: "ERROR_RATE"
+          value:  "1"
+        - name: "ERROR_CODE"
+          value: "500"
+        - name: "LISTEN_ADDR"
+          value: "0.0.0.0:8080"    
+        - name: "NAME"
+          value: "backend"      
+        - name: "MESSAGE"
+          value: "BAD fakeservice!!!!!!"                     
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: nicholasjackson/fake-service:v0.7.8
+        imagePullPolicy: IfNotPresent        
+        name: apigateway
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        securityContext:
+          privileged: false

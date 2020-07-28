@@ -1,0 +1,80 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fakeservice
+  name: good-fakeservice
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: fakeservice
+  template:
+    metadata:
+      labels:
+        app: fakeservice
+        type: good
+    spec:
+      serviceAccountName: fakeservice
+      containers:
+      - env:
+        - name: "LISTEN_ADDR"
+          value: "0.0.0.0:8080"    
+        - name: "NAME"
+          value: "backend"      
+        - name: "MESSAGE"
+          value: "GOOD fakeservice!"                     
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: nicholasjackson/fake-service:v0.7.8
+        imagePullPolicy: IfNotPresent
+        name: apigateway
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        securityContext:
+          privileged: false
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fakeservice
+  name: bad-fakeservice
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fakeservice
+  template:
+    metadata:
+      labels:
+        app: fakeservice
+        type: bad
+    spec:
+      serviceAccountName: fakeservice
+      containers:
+      - env:
+        - name: "LISTEN_ADDR"
+          value: "0.0.0.0:8080"    
+        - name: "NAME"
+          value: "backend"      
+        - name: "MESSAGE"
+          value: "BAD fakeservice (acting GOOD)!"                     
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: nicholasjackson/fake-service:v0.7.8
+        imagePullPolicy: IfNotPresent        
+        name: apigateway
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        securityContext:
+          privileged: false          

@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: fakeservice-vs
+spec:
+  hosts:
+  - fakeservice.default.svc.cluster.local
+  http:
+  - name: "default-fakeservice-route"
+    retries:
+      attempts: 0        
+    route:
+    - destination:
+        host: fakeservice.default.svc.cluster.local

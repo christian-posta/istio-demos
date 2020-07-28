@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: fakeservice-cb-policy
+spec:
+  host: fakeservice
+  trafficPolicy:
+    connectionPool:      
+      http:
+        http2MaxRequests: 10
+        maxRequestsPerConnection: 10
+    outlierDetection:
+      consecutive5xxErrors: 1
+      maxEjectionPercent: 51
+      interval: 15s
+      baseEjectionTime: 30s
+      minHealthPercent: 0
