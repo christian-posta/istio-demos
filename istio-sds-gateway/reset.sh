@@ -1,0 +1,2 @@
+. ./cleanup.sh
+. ./setup.sh
