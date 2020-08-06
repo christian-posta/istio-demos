@@ -1,0 +1,23 @@
+# Source: kiali-operator/templates/kiali-cr.yaml
+apiVersion: kiali.io/v1alpha1
+kind: Kiali
+metadata:
+  namespace: istio-system
+  name: kiali
+  labels:
+    helm.sh/chart: kiali-operator-v1.22.0
+    app: kiali-operator
+    app.kubernetes.io/name: kiali-operator
+    app.kubernetes.io/instance: kiali-operator
+    version: "v1.22.0"
+    app.kubernetes.io/version: "v1.22.0"
+    app.kubernetes.io/managed-by: Helm
+annotations:
+  ansible.operator-sdk/verbosity: "1"
+spec:
+  auth:    
+    strategy: token
+  deployment:
+    accessible_namespaces:
+    - '**'
+    image_version: v1.22
