@@ -1,6 +1,7 @@
 export ROOT_FOLDER=work
 export FILES=./demo-cluster-name/vm-services
 
+./stop-istio.sh
 
 rm -fr /var/run/secrets/istio
 rm -fr /var/run/secrets/tokens

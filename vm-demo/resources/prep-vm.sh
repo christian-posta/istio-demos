@@ -16,7 +16,7 @@ sudo cp "${FILES}"/istio-token /var/run/secrets/tokens/istio-token
 
 # Install sidecar
 echo "Installing sidecar"
-curl -LO https://storage.googleapis.com/istio-release/releases/1.7.0-rc.1/deb/istio-sidecar.deb
+curl -LO https://storage.googleapis.com/istio-release/releases/1.7.0-rc.3/deb/istio-sidecar.deb
 sudo dpkg -i istio-sidecar.deb
 
 # Install cluster.env

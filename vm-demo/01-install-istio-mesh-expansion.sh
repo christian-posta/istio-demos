@@ -1,4 +1,4 @@
 source env.sh
 kubectl create ns istio-system
-istioctl install -f resources/vmintegration.yaml
+istioctl1.7 install -f resources/vmintegration.yaml
 

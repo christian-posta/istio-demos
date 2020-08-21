@@ -13,20 +13,19 @@ tokenexpiretime=3600
 echo '{"kind":"TokenRequest","apiVersion":"authentication.k8s.io/v1","spec":{"audiences":["istio-ca"],"expirationSeconds":'$tokenexpiretime'}}' | kubectl create --raw /api/v1/namespaces/$VM_NAMESPACE/serviceaccounts/$SERVICE_ACCOUNT/token -f - | jq -j '.status.token' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/istio-token
 
 # get root ca
-kubectl -n "${VM_NAMESPACE}" get configmaps istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/root-cert.pem
+kubectl -n "${VM_NAMESPACE}" get configmaps -n istio-system istio-ca-root-cert -o json | jq -j '."data"."root-cert.pem"' > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/root-cert.pem
 
 # create cluster.env
 ISTIO_SERVICE_CIDR=$(echo '{"apiVersion":"v1","kind":"Service","metadata":{"name":"tst"},"spec":{"clusterIP":"1.1.1.1","ports":[{"port":443}]}}' | kubectl apply -f - 2>&1 | sed 's/.*valid IPs is //')
 touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/cluster.env
 echo ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/cluster.env
-echo "ISTIO_INBOUND_PORTS=8080" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/cluster.env
+echo "ISTIO_INBOUND_PORTS=9090" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/cluster.env
 
 # Set the IP address to the ingress gateway
 INGRESS_HOST=$(kubectl get svc -n istio-system | grep ingressgateway | awk '{print $4}')
 touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/hosts-addendum
 echo "${INGRESS_HOST} istiod.istio-system.svc" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/hosts-addendum
 ISTIO_SERVICE_IP_STUB=$(echo $ISTIO_SERVICE_CIDR | cut -f1 -d"/")
-echo "${ISTIO_SERVICE_IP_STUB} service.istio.mesh" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/hosts-addendum
 
 # Set up DNS files:
 echo $(cat resources/dns/dnsmasq.conf | sed  s/{ISTIO_SERVICE_IP_STUB}/$ISTIO_SERVICE_IP_STUB/) >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/dnsmasq-snippet.conf

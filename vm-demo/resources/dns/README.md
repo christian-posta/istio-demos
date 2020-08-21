@@ -1,6 +1,6 @@
 
 # Install dnsmasq
-sudo apt-get install dnsmasq
+sudo apt-get install dnsmasq -y
 
 # See config for dnsmasq
 cat /etc/dnsmasq.conf 
