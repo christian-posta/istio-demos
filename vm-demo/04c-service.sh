@@ -9,7 +9,7 @@ metadata:
     app: cloud-vm
 spec:
   ports:
-  - port: 8080
+  - port: 9090
     name: http-vm
     targetPort: 9090
   selector:

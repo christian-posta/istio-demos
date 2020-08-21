@@ -7,6 +7,8 @@ cp resources/clean-vm.sh ./work
 cp resources/start-istio.sh ./work
 cp resources/stop-istio.sh ./work
 cp resources/tail-istio-log.sh ./work
+cp resources/run-http.sh ./work
+cp resources/index.html ./work
 
 # Get short lived token
 tokenexpiretime=3600
