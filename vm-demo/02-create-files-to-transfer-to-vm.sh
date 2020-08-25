@@ -40,6 +40,7 @@ echo "ISTIO_INBOUND_PORTS=*" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}
 echo "ISTIO_LOCAL_EXCLUDE_PORTS=15090,15021,15020" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
 echo "PROV_CERT=/var/run/secrets/istio" >>"${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
 echo "OUTPUT_CERTS=/var/run/secrets/istio" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
+echo "ISTIO_META_NETWORK=vm-network" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env
 
 
 

@@ -16,7 +16,7 @@ sudo cp "${FILES}"/istio-token /var/run/secrets/tokens/istio-token
 
 # Install sidecar
 echo "Installing sidecar"
-curl -LO https://storage.googleapis.com/istio-release/releases/1.7.0-rc.3/deb/istio-sidecar.deb
+curl -LO https://storage.googleapis.com/istio-release/releases/1.7.0/deb/istio-sidecar.deb
 sudo dpkg -i istio-sidecar.deb
 
 # Install cluster.env
@@ -43,7 +43,9 @@ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy  /var/run/s
 FILE=/etc/dnsmasq.conf
 if test -f "$FILE"; then
     sudo bash -c "echo $(cat ${FILES}/dnsmasq-snippet.conf) >> /etc/dnsmasq.conf"
+    sudo systemctl restart dnsmasq.service
     
     sudo sed -i 's/^#DNS=/DNS=127.0.0.1/' /etc/systemd/resolved.conf
     sudo sed -i 's/^#Domains=/Domains=~svc.cluster.local/' /etc/systemd/resolved.conf
+    sudo systemctl restart systemd-resolved.service
 fi

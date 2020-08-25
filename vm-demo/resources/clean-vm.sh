@@ -22,8 +22,13 @@ FILE=/etc/dnsmasq.conf
 if test -f "$FILE"; then
     #revert the dnsmasq changes
     sudo sed -i '/^address=\/.svc.cluster.local/d' /etc/dnsmasq.conf
+    sudo systemctl restart dnsmasq.service
 
     # revert the resolved changes
     sudo sed -i 's/^DNS=127.0.0.1/#DNS=/' /etc/systemd/resolved.conf
     sudo sed -i 's/^Domains=~svc.cluster.local/#Domains=/' /etc/systemd/resolved.conf
+    sudo systemctl restart systemd-resolved.service
 fi
+
+sudo systemctl reset-failed
+sudo systemctl daemon-reload
