@@ -1,0 +1,67 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: web-api-vs
+spec:
+  hosts:
+  - web-api
+  http:
+  - route:
+    - destination:
+        host: web-api.resilience.svc.cluster.local
+    retries:
+      attempts: 1   
+      retryOn: retriable-4xx  
+---      
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: purchase-history-vs
+spec:
+  hosts:
+  - purchase-history
+  http:
+  - route:
+    - destination:
+        host: purchase-history
+        subset: version-v1
+      weight: 100
+    timeout: 1s   
+    retries:
+      attempts: 1   
+      retryOn: retriable-4xx          
+---      
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: recommendation-vs
+spec:
+  hosts:
+  - recommendation
+  http:
+  - route:
+    - destination:
+        host: recommendation.resilience.svc.cluster.local
+    retries:
+      attempts: 1   
+      retryOn: retriable-4xx   
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: web-api-gw-vs
+spec:
+  hosts:
+  - "resilience.istioinaction.io"
+  gateways:
+  - web-api-gateway
+  http:
+  - route:
+    - destination:
+        host: web-api.resilience.svc.cluster.local
+        port:
+          number: 8080        
+    retries:
+      attempts: 1
+      retryOn: retriable-4xx    
+         

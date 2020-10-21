@@ -5,9 +5,9 @@ SOURCE_DIR=$PWD
 
 desc "Let's deploy a service that has some delays:"
 desc "Again, let's disable automatic retries to see exactly how this works"
-run "kubectl apply -f $(relative istio/disable-auto-retries.yml) -n istio-demo"
+run "kubectl apply -f $(relative resources/istio/disable-auto-retries.yml) -n istio-demo"
 
-run "kubectl apply -f $(relative kube/recommendation-v2-delay-deployment.yml) -n istio-demo"
+run "kubectl apply -f $(relative resources/kube/recommendation-v2-delay-deployment.yml) -n istio-demo"
 run "kubectl get pod -w -n istio-demo"
 
 desc "This is no good -- we don't want customers to wait because of this delay"
