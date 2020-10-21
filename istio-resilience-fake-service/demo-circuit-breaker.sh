@@ -3,6 +3,10 @@
 . $(dirname ${BASH_SOURCE})/../util.sh
 SOURCE_DIR=$PWD
 
+desc "This demo is not updated!"
+read -s
+exit
+
 desc "Let's use Istio's circuit breaking / outlier detection to kick out those misbehaving pods"
 read -s
 

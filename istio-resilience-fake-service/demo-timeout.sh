@@ -3,6 +3,10 @@
 . $(dirname ${BASH_SOURCE})/../util.sh
 SOURCE_DIR=$PWD
 
+desc "This demo is not updated!"
+read -s
+exit
+
 desc "Let's deploy a service that has some delays:"
 desc "Again, let's disable automatic retries to see exactly how this works"
 run "kubectl apply -f $(relative resources/istio/disable-auto-retries.yml) -n istio-demo"
