@@ -38,6 +38,7 @@ desc "let's see Istio's VirtualService for this:"
 run "kubectl -n resilience get virtualservice.networking purchase-history-vs -o yaml"
 
 desc "Let's do a canary release of v2"
+run "cat $(relative resources/istio/ph-v1-v2-90-10.yaml)"
 run "kubectl apply -f $(relative resources/istio/ph-v1-v2-90-10.yaml) -n resilience"
 
 desc "Using Istio, let's purposefully balance traffic between v1 and v2"

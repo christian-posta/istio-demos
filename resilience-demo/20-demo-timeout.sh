@@ -15,8 +15,8 @@ desc "Let's enforce timeouts"
 
 read -s
 
-
-run "kubectl apply -f $(relative resources/istio/ph-v1-timeout.yaml) -n istio-demo"
+run "cat $(relative resources/istio/ph-v1-timeout.yaml)"
+run "kubectl apply -f $(relative resources/istio/ph-v1-timeout.yaml) -n resilience"
 
 desc "Now we see errors. That's no good either, but it's better than unbounded latency"
 
