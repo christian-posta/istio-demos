@@ -1,22 +1,22 @@
-
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: purchase-history-v2
+  name: purchase-history-v1-delay
   labels:
-    app: purchase-history-v2
+    app: purchase-history-v1-delay
 spec:
   replicas: 1
   selector:
     matchLabels:
-        deploy: purchase-history-v2
-        version: v2
+        deploy: purchase-history-v1-delay
+        version: v1
   template:
     metadata:
       labels:
-        deploy: purchase-history-v2
+        deploy: purchase-history-v1-delay
         app: purchase-history
-        version: v2
+        version: v1
       annotations:
     spec:
       containers:
@@ -28,6 +28,10 @@ spec:
         - name: "LISTEN_ADDR"
           value: "0.0.0.0:8080"
         - name: "NAME"
-          value: "purchase-history-v2"
+          value: "purchase-history-v1"
+        - name: "SERVER_TYPE"
+          value: "http"
         - name: "MESSAGE"
-          value: "Hello From Purchase History (v2)!"
+          value: "Hello From Purchase History (v1 - delayed)!"
+        - name: "TIMING_50_PERCENTILE"
+          value: "3000ms"

@@ -11,5 +11,5 @@ spec:
         host: recommendation
     retries:
       attempts: 5
-      perTryTimeout: 1s
+      perTryTimeout: 2s
 

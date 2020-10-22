@@ -9,11 +9,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-        app: purchase-history
+        deploy: purchase-history-v1
         version: v1
   template:
     metadata:
       labels:
+        deploy: purchase-history-v1
         app: purchase-history
         version: v1
       annotations:

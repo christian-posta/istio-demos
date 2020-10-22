@@ -13,4 +13,3 @@ kubectl apply -n resilience -f resources/k8s/purchase-history-v1.yaml
 
 # set all traffic to v1
 kubectl apply -n resilience -f resources/istio/ph-all-v1.yaml
-kubectl apply -n resilience -f resources/istio/disable-auto-retries.yaml

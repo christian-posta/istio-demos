@@ -13,4 +13,3 @@ spec:
       weight: 100
     retries:
       attempts: 3
-      perTryTimeout: 1s

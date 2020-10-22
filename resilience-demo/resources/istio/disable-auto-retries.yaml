@@ -26,7 +26,6 @@ spec:
         host: purchase-history
         subset: version-v1
       weight: 100
-    timeout: 1s   
     retries:
       attempts: 1   
       retryOn: retriable-4xx          

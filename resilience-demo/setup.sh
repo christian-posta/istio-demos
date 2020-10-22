@@ -13,4 +13,3 @@ kubectl apply -n resilience -f resources/istio/web-api-gw.yaml
 kubectl apply -n resilience -f resources/istio/web-api-gw-vs.yaml
 
 kubectl apply -n resilience -f resources/istio/ph-all-v1.yaml
-kubectl apply -n resilience -f resources/istio/disable-auto-retries.yaml
