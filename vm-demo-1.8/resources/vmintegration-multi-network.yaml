@@ -4,10 +4,35 @@ metadata:
   name: example-istiocontrolplane
 kind: IstioOperator
 spec:
+  profile: preview
+  components:
+    ingressGateways:
+      - name: istio-eastwestgateway
+        label:
+          istio: eastwestgateway
+          app: istio-eastwestgateway
+        enabled: true
+        k8s:
+          env:
+            # sni-dnat adds the clusters required for AUTO_PASSTHROUGH mode
+            - name: ISTIO_META_ROUTER_MODE
+              value: "sni-dnat"
+          service:
+            ports:
+              - name: status-port
+                port: 15021
+                targetPort: 15021
+              - name: mtls
+                port: 15443
+                targetPort: 15443
+              - name: tcp-istiod
+                port: 15012
+                targetPort: 15012
+              - name: tcp-webhook
+                port: 15017
+                targetPort: 15017  
   values:
     global:
-      meshExpansion:
-        enabled: true
       multiCluster:
         clusterName: kube-cluster
       network: main-network
@@ -16,6 +41,12 @@ spec:
           endpoints:
           - fromRegistry: kube-cluster
           gateways:
-          - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
-            port: 443
+          - port: 15443
+            registry_service_name: istio-eastwestgateway.istio-system.svc.cluster.local
         vm-network:
+          endpoints:
+          - fromRegistry: kube-cluster
+          gateways:
+          - port: 15443
+            registry_service_name: istio-eastwestgateway.istio-system.svc.cluster.local
+

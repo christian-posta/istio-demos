@@ -1,6 +1,6 @@
 export ROOT_FOLDER=work
 export FILES=./demo-cluster-name/vm-services
-
+sudo iptables -F -t nat
 ./stop-istio.sh
 
 rm -fr /var/run/secrets/istio
@@ -20,3 +20,4 @@ sudo rm -fr /var/log/istio
 
 sudo systemctl reset-failed
 sudo systemctl daemon-reload
+

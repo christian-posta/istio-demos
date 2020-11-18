@@ -3,6 +3,8 @@ Some helpful commands:
 gcloud beta compute scp --scp-flag="-r" --zone "us-west1-b" ./work ceposta-linux-builds:~ 
 
 gcloud beta compute ssh --zone "us-west1-b" "ceposta-linux-builds" --project "solo-public"
+gcloud beta compute ssh --zone "us-central1-a" "ceposta-disconnected-vm" --project "solo-public"
+
 
 
 sudo iptables -t nat -L

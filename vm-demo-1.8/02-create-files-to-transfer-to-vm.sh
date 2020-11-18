@@ -1,5 +1,6 @@
 source env.sh
 
+rm -fr ./work
 mkdir -p "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"
 
 cp resources/prep-vm.sh ./work
@@ -26,15 +27,11 @@ echo "ISTIO_INBOUND_PORTS=9090" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPA
 echo "ISTIO_NAMESPACE=$VM_NAMESPACE" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/cluster.env
 
 # Set the IP address to the ingress gateway
-INGRESS_HOST=$(kubectl get svc -n istio-system | grep ingressgateway | awk '{print $4}')
+INGRESS_HOST=$(kubectl get svc -n istio-system | grep istio-eastwestgateway | awk '{print $4}')
 touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/hosts-addendum
 echo "${INGRESS_HOST} istiod.istio-system.svc" >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/hosts-addendum
 ISTIO_SERVICE_IP_STUB=$(echo $ISTIO_SERVICE_CIDR | cut -f1 -d"/")
 
-# Set up DNS files:
-echo $(cat resources/dns/dnsmasq.conf | sed  s/{ISTIO_SERVICE_IP_STUB}/$ISTIO_SERVICE_IP_STUB/) >> "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/dnsmasq-snippet.conf
-
-cp resources/dns/resolved.conf "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/resolved.conf
 
 # create sidecar.env
 touch "${WORK_DIR}"/"${CLUSTER_NAME}"/"${VM_NAMESPACE}"/sidecar.env

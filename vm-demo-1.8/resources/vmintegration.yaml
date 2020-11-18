@@ -4,7 +4,4 @@ metadata:
   name: example-istiocontrolplane
 kind: IstioOperator
 spec:
-  values:
-    global:
-      meshExpansion:
-        enabled: true
+  profile: preview
