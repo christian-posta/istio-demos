@@ -1,0 +1,10 @@
+apiVersion: install.istio.io/v1alpha1
+metadata:
+  namespace: istio-system
+  name: example-istiocontrolplane
+kind: IstioOperator
+spec:
+  values:
+    global:
+      meshExpansion:
+        enabled: true

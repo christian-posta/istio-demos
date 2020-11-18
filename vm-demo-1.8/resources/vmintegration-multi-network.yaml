@@ -1,0 +1,21 @@
+apiVersion: install.istio.io/v1alpha1
+metadata:
+  namespace: istio-system
+  name: example-istiocontrolplane
+kind: IstioOperator
+spec:
+  values:
+    global:
+      meshExpansion:
+        enabled: true
+      multiCluster:
+        clusterName: kube-cluster
+      network: main-network
+      meshNetworks:
+        main-network:
+          endpoints:
+          - fromRegistry: kube-cluster
+          gateways:
+          - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
+            port: 443
+        vm-network:
