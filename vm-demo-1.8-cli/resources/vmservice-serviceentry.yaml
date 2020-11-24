@@ -1,6 +1,3 @@
-source env.sh
-
-cat <<EOF | kubectl -n "${VM_NAMESPACE}" apply -f -
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -18,5 +15,3 @@ spec:
   workloadSelector:
     labels:
       app: python-http
-EOF
-
