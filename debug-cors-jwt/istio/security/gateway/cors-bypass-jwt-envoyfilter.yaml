@@ -16,18 +16,6 @@ spec:
           filter:
             name: "envoy.filters.network.http_connection_manager"
             subFilter: 
-              name: "envoy.filters.http.cors"                          
-    patch:
-      operation: REMOVE          
-
-  - applyTo: HTTP_FILTER
-    match:
-      context: GATEWAY
-      listener:
-        filterChain:
-          filter:
-            name: "envoy.filters.network.http_connection_manager"
-            subFilter: 
               name: "envoy.filters.http.jwt_authn"
     patch:
       operation: MERGE
@@ -36,19 +24,3 @@ spec:
         typed_config: 
           "@type": "type.googleapis.com/envoy.extensions.filters.http.jwt_authn.v3.JwtAuthentication"
           bypass_cors_preflight: true
-
-  - applyTo: HTTP_FILTER
-    match:
-      context: GATEWAY
-      listener:
-        filterChain:
-          filter:
-            name: "envoy.filters.network.http_connection_manager"
-            subFilter: 
-              name: "envoy.filters.http.jwt_authn"                          
-    patch:
-      operation: INSERT_BEFORE   
-      value: 
-        name: "envoy.filters.http.cors"
-        typed_config: 
-          "@type": "type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors"               

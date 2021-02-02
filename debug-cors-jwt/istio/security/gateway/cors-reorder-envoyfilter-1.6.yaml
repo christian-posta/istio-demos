@@ -1,0 +1,36 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: reorder-cors-before-jwt
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      app: istio-ingressgateway
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: GATEWAY
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.http_connection_manager"
+            subFilter: 
+              name: "envoy.cors"                          
+    patch:
+      operation: REMOVE          
+  - applyTo: HTTP_FILTER
+    match:
+      context: GATEWAY
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.http_connection_manager"
+            subFilter: 
+              name: "envoy.filters.http.jwt_authn"                          
+    patch:
+      operation: INSERT_BEFORE   
+      value: 
+        name: "envoy.cors"
+        typed_config: 
+          "@type": "type.googleapis.com/envoy.config.filter.http.cors.v2.Cors"               
