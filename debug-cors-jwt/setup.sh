@@ -1,4 +1,4 @@
-pushd ../istio-mtls-demo
+pushd ../sample-apps
 ./setup.sh
 popd
 

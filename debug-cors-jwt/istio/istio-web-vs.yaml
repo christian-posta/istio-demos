@@ -14,16 +14,4 @@ spec:
         host: web-api
         port:
           number: 8080
-    corsPolicy:
-      maxAge: 1m
-      allowCredentials: true
-      allowHeaders:
-      - foo
-      - bar
-      allowMethods:
-      - GET
-      allowOrigin:
-      - http://istio.io
-      allowOrigins:
-      - exact: http://istio.io
   
