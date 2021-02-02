@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: cors-bypass-jwt
+  namespace: istioinaction
+spec:
+  workloadSelector:
+    labels:
+      app: web-api
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_INBOUND
+      listener:
+        portNumber: 8080
+        filterChain:
+          filter:
+            name: "envoy.filters.network.http_connection_manager"
+            subFilter: 
+              name: "envoy.filters.http.jwt_authn"                          
+    patch:
+      operation: MERGE
+      value:
+        name: "envoy.filters.http.jwt_authn"
+        typed_config: 
+          "@type": "type.googleapis.com/envoy.extensions.filters.http.jwt_authn.v3.JwtAuthentication"
+          bypass_cors_preflight: true
+       

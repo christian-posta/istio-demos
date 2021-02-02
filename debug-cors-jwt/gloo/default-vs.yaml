@@ -1,0 +1,59 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: default
+  namespace: gloo-system
+spec:
+  sslConfig:
+    secretRef:
+      name: ceposta-gloo-demo-dns
+      namespace: gloo-system
+    sniDomains:
+    - ceposta-gloo-demo.solo.io
+  virtualHost:
+    domains:
+    - ceposta-gloo-demo.solo.io
+    options:
+      cors:
+        allowMethods:
+        - GET
+        - OPTIONS
+        - POST
+        allowOrigin:
+        - https://ceposta-gloo-demo.solo.io
+      headerManipulation:
+        requestHeadersToRemove:
+        - cookie
+      jwt:
+        providers:
+          kube:
+            issuer: solo.io
+            jwks:
+              local:
+                key: |
+                  -----BEGIN PUBLIC KEY-----
+                  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx7s5/6vgGPoW1PKkSMka
+                  u+Xr9JVZJNbqKXJ7RWKCqPxL5Vtj8II7lPi8d+x60f54oJTnyL/0zMVVsSq3msDh
+                  qzBSMpCUCR2q+pHjS/29rrFBlBHy1ty8kiMo+qXZn3SmSqGRo53bdWoiQ6ZWVZ2m
+                  kgYpdlNzNaSUe8AOQKnxBC3rBwx3+0g9RJvd4MM46YkN6Epr/NUKN///osqzfVfN
+                  oG9YLp1pbatjpqvO1XlxX4qCNLScY5FOFrkTf95O3a3Y195o89D9XwULWT1baVuO
+                  /z7Ueug68b0t51mGXuEC572DmEbc8xHLnVfLM18QADvOnSzqY6vtIQcuGE/V/c7A
+                  TQIDAQAB
+                  -----END PUBLIC KEY-----
+    routes:
+    - matchers:
+      - prefix: /httpbin
+      options:
+        prefixRewrite: /headers
+      routeAction:
+        single:
+          upstream:
+            name: httpbin-static
+            namespace: gloo-system
+    - matchers:
+      - prefix: /
+      routeAction:
+        single:
+          upstream:
+            name: default-web-api-8080
+            namespace: gloo-system

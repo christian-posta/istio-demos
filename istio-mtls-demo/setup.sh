@@ -1,5 +1,7 @@
 # Install Istio
-istioctl manifest apply -y
+echo "make sure Istio installed"
+read -s
+#istioctl manifest apply -y
 
 # Install Sample app
 kubectl create ns istioinaction

@@ -1,0 +1,19 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: authpolicy
+  namespace: istio-system
+spec:
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        paths:
+        - /*
+    when:
+    - key: request.auth.claims[iss]
+      values:
+      - solo.io
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
