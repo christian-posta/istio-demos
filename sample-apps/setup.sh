@@ -1,8 +1,3 @@
-# Install Istio
-echo "make sure Istio installed"
-read -s
-#istioctl manifest apply -y
-
 # Install Sample app
 kubectl create ns istioinaction
 kubectl label namespace istioinaction istio-injection=enabled --overwrite
