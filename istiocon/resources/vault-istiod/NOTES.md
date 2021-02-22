@@ -53,3 +53,18 @@ vault write -format=json -address="http://vault.vault.svc.cluster.local:8200" pk
   >(jq -r .data.certificate > /etc/cacerts/ca-cert.pem) \
   >(jq -r .data.issuing_ca > /etc/cacerts/root-cert.pem)
 cat /etc/cacerts/ca-cert.pem /etc/cacerts/root-cert.pem > /etc/cacerts/cert-chain.pem
+
+
+## Automated with:
+
+./install-vault.sh
+./init-ca-in-pod.sh
+
+Should apply istiod:
+
+`kubectl apply -f istiod-deploy.yaml`
+
+Use this to verify: 
+```
+kubectl  get cm istio-ca-root-cert -o jsonpath="{.data['root-cert\.pem']}" | step certificate inspect -
+```

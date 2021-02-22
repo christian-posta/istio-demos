@@ -4,9 +4,9 @@ metadata:
   labels:
     app: istiod
     istio: pilot
-    istio.io/rev: default
+    istio.io/rev: 1-8-3
     release: istio
-  name: istiod
+  name: istiod-1-8-3
   namespace: istio-system
 spec:
   progressDeadlineSeconds: 600
@@ -14,7 +14,8 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      istio: pilot
+      app: istiod
+      istio.io/rev: 1-8-3
   strategy:
     rollingUpdate:
       maxSurge: 100%
@@ -30,8 +31,8 @@ spec:
       labels:
         app: istiod
         install.operator.istio.io/owning-resource: unknown
-        istio: pilot
-        istio.io/rev: default
+        istio: istiod
+        istio.io/rev: 1-8-3
         operator.istio.io/component: Pilot
     spec:
       containers:
@@ -74,7 +75,7 @@ spec:
         - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND
           value: "true"
         - name: INJECTION_WEBHOOK_CONFIG_NAME
-          value: istio-sidecar-injector
+          value: istio-sidecar-injector-1-8-3
         - name: ISTIOD_ADDR
           value: istiod.istio-system.svc:15012
         - name: PILOT_ENABLE_ANALYSIS
