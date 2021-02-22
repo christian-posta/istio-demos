@@ -13,7 +13,7 @@ desc "Verify control plane installed correctly"
 read -s
 
 run "kubectl get po -n istio-system"
-run "kubectl logs -f -n istio-system deploy/istiod-1-8-3 "
+run "kubectl logs -n istio-system deploy/istiod-1-8-3 "
 
 desc "This is a problem... "
 read -s

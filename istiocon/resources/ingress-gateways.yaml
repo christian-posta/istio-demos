@@ -24,3 +24,4 @@ spec:
                preStop:
                  exec:
                    command: ["sh", "-c", "sleep 5"]
+

@@ -7,7 +7,10 @@ desc "Let's slowly introduce our servcies into the mesh"
 run "kubectl get po -n istioinaction"
 run "kubectl -n istioinaction exec -it deploy/sleep -c sleep -- curl http://web-api:8080"
 
+backtotop
 desc "Let's label the namespace with the correct revision"
+read -s
+
 run "kubectl label namespace istioinaction istio.io/rev=1-8-3"
 
 desc "Now let's deploy a canary version of one of our existing services"
@@ -24,8 +27,8 @@ run "kubectl -n istioinaction get po"
 
 desc "repeat the process to get all of the workloads individually into the mesh"
 desc "(speeding it up...)"
-run "kubectl -n istioinaction rollout restart deploy/recommendation"
-run "kubectl -n istioinaction rollout restart deploy/purchase-history-v1"
-run "kubectl -n istioinaction rollout restart deploy/sleep"
+kubectl -n istioinaction rollout restart deploy/recommendation
+kubectl -n istioinaction rollout restart deploy/purchase-history-v1
+kubectl -n istioinaction rollout restart deploy/sleep
 
 

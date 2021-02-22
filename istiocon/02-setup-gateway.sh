@@ -21,7 +21,7 @@ run "kubectl -n istioinaction apply -f ./resources/web-api-ingress.yaml"
 
 URL=$(istioctl-ip)
 desc "Let's call our service through the ingress gateway"
-run "curl -v -H 'Host: istioinaction' http://$URL/"
+run "curl -v -H 'Host: istioinaction.io' http://$URL/"
 
 backtotop
 desc "One of the most common things to do at the edge is secure your traffic"
@@ -31,17 +31,23 @@ read -s
 run "cat ./resources/request-auth.yaml"
 run "kubectl apply -f ./resources/request-auth.yaml"
 
+run "cat ./resources/authorization-policy.yaml"
+run "kubectl apply -f ./resources/authorization-policy.yaml"
+
+desc "Note! Lawrence's deep dive on Authorization Policies!"
+read -s
+
 desc "Give it a few seconds to take effect (ENTER to cont)"
 read -s
 
 desc "Now try call the service through ingress gateway"
-run "curl -v -H 'Host: istioinaction' http://$URL/"
+run "curl -v -H 'Host: istioinaction.io' http://$URL/"
 
 source ./token-export.sh
 desc "It failed!"
 desc "let's pass a valid token"
 
-run "curl -v -H 'Host: istioinaction' http://$URL/ -H 'Authorization: Bearer $TOKEN'"
+run "curl -v -H 'Host: istioinaction.io' http://$URL/ -H \"Authorization: Bearer $TOKEN\""
 
 
 
