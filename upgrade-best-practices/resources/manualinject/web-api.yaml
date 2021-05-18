@@ -4,19 +4,16 @@ metadata:
   name: web-api
   labels:
     app: web-api
-    prod: stable
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: web-api
-      prod: stable
   template:
-    metadata:
+    metadata:        
       labels:
         app: web-api
-        prod: stable
-      annotations:
+        istio.io/rev: prod-canary
     spec:
       containers:
       - name: web-api

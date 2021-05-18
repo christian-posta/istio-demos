@@ -1,51 +1,45 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: purchase-history-v1
+  name: recommendation
   labels:
-    app: purchase-history-v1
-    prod: stable
+    app: recommendation
 spec:
   replicas: 1
   selector:
     matchLabels:
-        app: purchase-history
-        version: v1
-        prod: stable
+      app: recommendation
   template:
     metadata:
       labels:
-        app: purchase-history
-        version: v1
-        prod: stable
+        app: recommendation
       annotations:
     spec:
       containers:
-      - name: purchase-history
+      - name: recommendation
         image: nicholasjackson/fake-service:v0.7.8
         ports:
         - containerPort: 8080
         env:
         - name: "LISTEN_ADDR"
           value: "0.0.0.0:8080"
+        - name: "UPSTREAM_URIS"
+          value: "http://purchase-history:8080"
         - name: "NAME"
-          value: "purchase-history-v1"
-        - name: "SERVER_TYPE"
-          value: "http"
+          value: "recommendation"
         - name: "MESSAGE"
-          value: "Hello From Purchase History (v1)!"
+          value: "Hello From Recommendations!"
 
 ---
-# Service to expose purchase-history-v1 frontend
+# Service to expose recommendation frontend
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: purchase-history
+  name: recommendation
 spec:
   selector:
-    app: purchase-history
+    app: recommendation
   ports:
   - name: http
     protocol: TCP

@@ -5,20 +5,17 @@ metadata:
   name: purchase-history-v1
   labels:
     app: purchase-history-v1
-    prod: stable
 spec:
   replicas: 1
   selector:
     matchLabels:
         app: purchase-history
         version: v1
-        prod: stable
   template:
     metadata:
       labels:
         app: purchase-history
         version: v1
-        prod: stable
       annotations:
     spec:
       containers:
@@ -34,7 +31,7 @@ spec:
         - name: "SERVER_TYPE"
           value: "http"
         - name: "MESSAGE"
-          value: "Hello From Purchase History (v1)!"
+          value: "Hello From CANARY Purchase History (v1)!"
 
 ---
 # Service to expose purchase-history-v1 frontend

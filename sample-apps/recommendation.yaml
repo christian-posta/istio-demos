@@ -4,15 +4,18 @@ metadata:
   name: recommendation
   labels:
     app: recommendation
+    prod: stable
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: recommendation
+      prod: stable
   template:
     metadata:
       labels:
         app: recommendation
+        prod: stable
       annotations:
     spec:
       containers:

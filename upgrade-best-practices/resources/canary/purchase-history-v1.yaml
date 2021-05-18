@@ -5,20 +5,17 @@ metadata:
   name: purchase-history-v1
   labels:
     app: purchase-history-v1
-    prod: stable
 spec:
   replicas: 1
   selector:
     matchLabels:
         app: purchase-history
         version: v1
-        prod: stable
   template:
     metadata:
       labels:
         app: purchase-history
         version: v1
-        prod: stable
       annotations:
     spec:
       containers:

@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istioinaction-gw
+  namespace: istioinaction
+spec:
+  selector:
+    matchLabels:
+      ingress: istioinaction-gw
+  template:
+    metadata:
+      annotations:
+        # in Istio 1.9, you need to have injection enable on the namespace
+        # in Istio 1.10+ you can just use this inject annotation regardless of
+        # what's on the namespace
+        sidecar.istio.io/inject: "true"
+        # here we specify to use the gateway template
+        inject.istio.io/templates: gateway        
+      labels:
+        ingress: istioinaction-gw
+    spec:
+      containers:
+      - name: istio-proxy
+        image: auto 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: istioinaction-gw
+  namespace: istioinaction
+spec:
+  type: LoadBalancer
+  selector:
+    ingress: istioinaction-gw
+  ports:
+  - port: 80
+    name: http
+  - port: 443
+    name: https      
+---
+# Set up roles to allow reading credentials for TLS
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: istioinaction-gw-sds
+  namespace: istioinaction
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: istioinaction-gw-sds
+  namespace: istioinaction
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: istioinaction-gw-sds
+subjects:
+- kind: ServiceAccount
+  name: default
+

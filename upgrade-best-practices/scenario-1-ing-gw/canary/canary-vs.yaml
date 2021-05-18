@@ -1,0 +1,55 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: web-api-canary
+spec:
+  hosts:
+  - web-api.istioinaction.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: web-api.istioinaction.svc.cluster.local
+        subset: stable
+      weight: 100
+    - destination:
+        host: web-api.istioinaction.svc.cluster.local
+        subset: canary
+      weight: 0
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: recommendation-canary
+spec:
+  hosts:
+  - recommendation.istioinaction.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: recommendation.istioinaction.svc.cluster.local
+        subset: stable
+      weight: 100
+    - destination:
+        host: recommendation.istioinaction.svc.cluster.local
+        subset: canary
+      weight: 0
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: purchase-history-canary
+spec:
+  hosts:
+  - purchase-history.istioinaction.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: purchase-history.istioinaction.svc.cluster.local
+        subset: stable
+      weight: 100
+    - destination:
+        host: purchase-history.istioinaction.svc.cluster.local
+        subset: canary
+      weight: 0
+
+

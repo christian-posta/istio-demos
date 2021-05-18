@@ -1,0 +1,41 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: web-api-canary
+spec:
+  host: web-api.istioinaction.svc.cluster.local
+  subsets:
+  - name: stable
+    labels:
+      prod: stable    
+  - name: canary
+    labels:
+      prod: canary
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: recommendation-canary
+spec:
+  host: recommendation.istioinaction.svc.cluster.local
+  subsets:
+  - name: stable
+    labels:
+      prod: stable    
+  - name: canary
+    labels:
+      prod: canary
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: purchase-history-canary
+spec:
+  host: purchase-history.istioinaction.svc.cluster.local
+  subsets:
+  - name: stable
+    labels:
+      prod: stable    
+  - name: canary
+    labels:
+      prod: canary
