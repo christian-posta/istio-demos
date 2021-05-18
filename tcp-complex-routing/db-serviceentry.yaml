@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: external-postgresdb
+  namespace : istioinaction
+spec:
+  hosts:
+  - foo.postgres.db
+  addresses:
+  - 192.168.0.01
+  exportTo:
+  - "."
+  location: MESH_EXTERNAL
+  ports:
+  - number: 5432
+    name: tcp
+    protocol: TCP
+  resolution: NONE

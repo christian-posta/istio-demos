@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: postgres-routing
+  namespace: istioinaction
+spec:
+  hosts:
+  - foo.postgres.db
+  exportTo:
+  - "."
+  tcp:
+  - match:
+    - port: 5432
+    route:
+    - destination:
+        host: actual.postgresdb.url
+

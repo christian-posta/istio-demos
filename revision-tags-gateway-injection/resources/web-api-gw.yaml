@@ -1,0 +1,37 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: web-api-gateway
+  namespace: istioinaction
+spec:
+  selector:
+    ingress: istioinaction-gw
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "istioinaction.io"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: web-api-gw-vs
+  namespace: istioinaction
+spec:
+  # best practice to always use exportTo, especially for 
+  # gateway routing
+  exportTo:
+    - "istioinaction"
+  hosts:
+  - "istioinaction.io"
+  gateways:
+  - web-api-gateway
+  http:
+  - route:
+    - destination:
+        host: web-api
+        port:
+          number: 8080
+      

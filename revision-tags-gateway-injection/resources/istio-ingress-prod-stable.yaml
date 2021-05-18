@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istioinaction-gw-1-9-5
+spec:
+  selector:
+    matchLabels:
+      ingress: istioinaction-gw
+  template:
+    metadata:
+      annotations:
+        # here we specify to use the gateway template
+        inject.istio.io/templates: gateway        
+      labels:
+        ingress: istioinaction-gw
+
+        # we will label this with the tag prod-canary
+        istio.io/rev: prod-stable
+    spec:
+      containers:
+      - name: istio-proxy
+        image: auto 
+
