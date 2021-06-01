@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-gw
+spec:
+  selector:
+    matchLabels:
+      ingress: demo-gw
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+        inject.istio.io/templates: gateway        
+      labels:
+        ingress: demo-gw
+    spec:
+      containers:
+      - name: istio-proxy
+        image: auto 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-gw
+spec:
+  type: LoadBalancer
+  selector:
+    ingress: demo-gw
+  ports:
+  - port: 80
+    name: http
+  - port: 443
+    name: https      
+---
+# Set up roles to allow reading credentials for TLS
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: demo-gw-sds
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: demo-gw-sds
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: demo-gw-sds
+subjects:
+- kind: ServiceAccount
+  name: default
+
