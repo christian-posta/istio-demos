@@ -2,7 +2,7 @@ apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
   name: jwt-soloio-reqauth
-  namespace: istio-system
+  namespace: istio-ingress
 spec:
   jwtRules:
   - issuer: solo.io

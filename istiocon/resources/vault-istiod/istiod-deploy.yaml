@@ -3,10 +3,15 @@ kind: Deployment
 metadata:
   labels:
     app: istiod
+    install.operator.istio.io/owning-resource: control-plane
+    install.operator.istio.io/owning-resource-namespace: istio-system
     istio: pilot
-    istio.io/rev: 1-8-3
+    istio.io/rev: 1-9-5
+    operator.istio.io/component: Pilot
+    operator.istio.io/managed: Reconcile
+    operator.istio.io/version: 1.9.5
     release: istio
-  name: istiod-1-8-3
+  name: istiod-1-9-5
   namespace: istio-system
 spec:
   progressDeadlineSeconds: 600
@@ -15,7 +20,7 @@ spec:
   selector:
     matchLabels:
       app: istiod
-      istio.io/rev: 1-8-3
+      istio.io/rev: 1-9-5
   strategy:
     rollingUpdate:
       maxSurge: 100%
@@ -32,8 +37,9 @@ spec:
         app: istiod
         install.operator.istio.io/owning-resource: unknown
         istio: istiod
-        istio.io/rev: 1-8-3
+        istio.io/rev: 1-9-5
         operator.istio.io/component: Pilot
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
       - args:
@@ -46,7 +52,7 @@ spec:
         - 30m
         env:
         - name: REVISION
-          value: default
+          value: 1-9-5
         - name: JWT_POLICY
           value: third-party-jwt
         - name: PILOT_CERT_PROVIDER
@@ -68,27 +74,23 @@ spec:
               fieldPath: spec.serviceAccountName
         - name: KUBECONFIG
           value: /var/run/secrets/remote/config
+        - name: ENABLE_LEGACY_FSGROUP_INJECTION
+          value: "false"
         - name: PILOT_TRACE_SAMPLING
-          value: "100"
+          value: "1"
         - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_OUTBOUND
           value: "true"
         - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND
           value: "true"
-        - name: INJECTION_WEBHOOK_CONFIG_NAME
-          value: istio-sidecar-injector-1-8-3
         - name: ISTIOD_ADDR
-          value: istiod.istio-system.svc:15012
+          value: istiod-1-9-5.istio-system.svc:15012
         - name: PILOT_ENABLE_ANALYSIS
           value: "false"
         - name: CLUSTER_ID
           value: Kubernetes
         - name: EXTERNAL_ISTIOD
           value: "false"
-        - name: CENTRAL_ISTIOD
-          value: "false"
-        - name: PILOT_ENDPOINT_TELEMETRY_LABEL
-          value: "true"
-        image: docker.io/istio/pilot:1.8.3
+        image: docker.io/istio/pilot:1.9.5
         imagePullPolicy: IfNotPresent
         name: discovery
         ports:
@@ -97,8 +99,6 @@ spec:
         - containerPort: 15010
           protocol: TCP
         - containerPort: 15017
-          protocol: TCP
-        - containerPort: 15053
           protocol: TCP
         readinessProbe:
           failureThreshold: 3
@@ -112,8 +112,8 @@ spec:
           timeoutSeconds: 5
         resources:
           requests:
-            cpu: 10m
-            memory: 100Mi
+            cpu: 500m
+            memory: 2Gi
         securityContext:
           capabilities:
             drop:
@@ -180,10 +180,10 @@ spec:
           secretName: istio-kubeconfig
       - configMap:
           defaultMode: 420
-          name: istio-sidecar-injector-1-8-3
+          name: istio-sidecar-injector-1-9-5
         name: inject
       - configMap:
           defaultMode: 420
-          name: istio-1-8-3 
+          name: istio-1-9-5
         name: config-volume
 

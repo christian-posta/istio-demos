@@ -11,7 +11,7 @@ backtotop
 desc "Let's label the namespace with the correct revision"
 read -s
 
-run "kubectl label namespace istioinaction istio.io/rev=1-8-3"
+run "kubectl label namespace istioinaction istio.io/rev=1-9-5"
 
 desc "Now let's deploy a canary version of one of our existing services"
 run "kubectl -n istioinaction apply -f resources/sample-apps-canary/web-api.yaml"

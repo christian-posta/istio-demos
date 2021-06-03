@@ -4,6 +4,7 @@ kubectl -n istioinaction apply -f ../sample-apps/web-api.yaml
 kubectl -n istioinaction apply -f ../sample-apps/recommendation.yaml
 kubectl -n istioinaction apply -f ../sample-apps/purchase-history-v1.yaml
 kubectl -n istioinaction apply -f ../sample-apps/sleep.yaml
+kubectl -n default apply -f ../sample-apps/sleep.yaml
 
 
 
