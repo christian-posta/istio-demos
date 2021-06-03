@@ -4,8 +4,8 @@
 SOURCE_DIR=$PWD
 
 desc "Let's slowly introduce our servcies into the mesh"
+desc "We can see here our workloads have no sidecars"
 run "kubectl get po -n istioinaction"
-run "kubectl -n istioinaction exec -it deploy/sleep -c sleep -- curl http://web-api:8080"
 
 backtotop
 desc "Let's label the namespace with the correct revision"
@@ -18,6 +18,7 @@ run "kubectl -n istioinaction apply -f resources/sample-apps-canary/web-api.yaml
 
 desc "Let's see that it has the sidecar injected"
 run "kubectl -n istioinaction get po"
+run "istioctl proxy-status"
 run "kubectl -n istioinaction exec -it deploy/sleep -c sleep -- curl http://web-api:8080"
 
 desc "if all looks good, we can rollout the original version"

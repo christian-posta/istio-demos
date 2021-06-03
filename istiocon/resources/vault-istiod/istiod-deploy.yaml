@@ -6,12 +6,12 @@ metadata:
     install.operator.istio.io/owning-resource: control-plane
     install.operator.istio.io/owning-resource-namespace: istio-system
     istio: pilot
-    istio.io/rev: 1-9-5
+    istio.io/rev: 1-10-0
     operator.istio.io/component: Pilot
     operator.istio.io/managed: Reconcile
-    operator.istio.io/version: 1.9.5
+    operator.istio.io/version: 1.10.0
     release: istio
-  name: istiod-1-9-5
+  name: istiod-1-10-0
   namespace: istio-system
 spec:
   progressDeadlineSeconds: 600
@@ -20,7 +20,7 @@ spec:
   selector:
     matchLabels:
       app: istiod
-      istio.io/rev: 1-9-5
+      istio.io/rev: 1-10-0
   strategy:
     rollingUpdate:
       maxSurge: 100%
@@ -37,7 +37,7 @@ spec:
         app: istiod
         install.operator.istio.io/owning-resource: unknown
         istio: istiod
-        istio.io/rev: 1-9-5
+        istio.io/rev: 1-10-0
         operator.istio.io/component: Pilot
         sidecar.istio.io/inject: "false"
     spec:
@@ -52,7 +52,7 @@ spec:
         - 30m
         env:
         - name: REVISION
-          value: 1-9-5
+          value: 1-10-0
         - name: JWT_POLICY
           value: third-party-jwt
         - name: PILOT_CERT_PROVIDER
@@ -83,14 +83,12 @@ spec:
         - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND
           value: "true"
         - name: ISTIOD_ADDR
-          value: istiod-1-9-5.istio-system.svc:15012
+          value: istiod-1-10-0.istio-system.svc:15012
         - name: PILOT_ENABLE_ANALYSIS
           value: "false"
         - name: CLUSTER_ID
           value: Kubernetes
-        - name: EXTERNAL_ISTIOD
-          value: "false"
-        image: docker.io/istio/pilot:1.9.5
+        image: docker.io/istio/pilot:1.10.0
         imagePullPolicy: IfNotPresent
         name: discovery
         ports:
@@ -124,8 +122,6 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-        - mountPath: /etc/istio/config
-          name: config-volume
         - mountPath: /var/run/secrets/tokens
           name: istio-token
           readOnly: true
@@ -136,9 +132,6 @@ spec:
           readOnly: true
         - mountPath: /var/run/secrets/remote
           name: istio-kubeconfig
-          readOnly: true
-        - mountPath: /var/lib/istio/inject
-          name: inject
           readOnly: true
       dnsPolicy: ClusterFirst
       initContainers:
@@ -178,12 +171,4 @@ spec:
           defaultMode: 420
           optional: true
           secretName: istio-kubeconfig
-      - configMap:
-          defaultMode: 420
-          name: istio-sidecar-injector-1-9-5
-        name: inject
-      - configMap:
-          defaultMode: 420
-          name: istio-1-9-5
-        name: config-volume
 

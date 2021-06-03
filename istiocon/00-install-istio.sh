@@ -24,4 +24,4 @@ read -s
 run "kubectl apply -f ./resources/istiod-service.yaml"
 
 desc "Now let's check the logs"
-run "kubectl logs -f -n istio-system deploy/istiod-1-9-5"
+run "kubectl logs -n istio-system deploy/istiod-1-9-5"

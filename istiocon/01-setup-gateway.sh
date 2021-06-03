@@ -25,6 +25,10 @@ URL=$(istioctl-ip)
 desc "Let's call our service through the ingress gateway"
 run "kubectl exec -it deploy/sleep -n default -- curl -v -H 'Host: istioinaction.io' http://istio-ingressgateway.istio-ingress/"
 
+
+desc "Press Enter to continue to JWT demo, or CTRL+C to end demo here"
+read -s
+
 backtotop
 desc "One of the most common things to do at the edge is secure your traffic"
 desc "For example, we can require JWT verification on requests coming in"
