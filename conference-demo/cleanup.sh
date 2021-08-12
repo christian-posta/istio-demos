@@ -1,4 +1,5 @@
 kubectl delete ns istioinaction
-istioctl x uninstall --purge
+kubectl delete ns istio-ingress
+istioctl x uninstall --purge -y
 kubectl delete ns istio-system
 kubectl delete ns vault
