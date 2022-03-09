@@ -23,15 +23,15 @@ popd
 export ISTIO_DIR=/home/solo/dev/istio/istio-1.12.1
 istioctl install -y --context istio-1 -f ./istio/cluster1.yaml
 istioctl install -y --context istio-1 -f ./istio/ew-gateway1.yaml
-kubectl --context=istio-1 apply -n istio-system -f $ISTIO_DIR/samples/multicluster/expose-services.yaml
+kubectl --context=istio-1 apply -n istio-system -f ./istio/expose-services.yaml
 
 istioctl install -y --context istio-2 -f ./istio/cluster2.yaml
 istioctl install -y --context istio-2 -f ./istio/ew-gateway2.yaml
-kubectl --context=istio-2 apply -n istio-system -f $ISTIO_DIR/samples/multicluster/expose-services.yaml
+kubectl --context=istio-2 apply -n istio-system -f ./istio/expose-services.yaml
 
 istioctl install -y --context istio-3 -f ./istio/cluster3.yaml
 istioctl install -y --context istio-3 -f ./istio/ew-gateway3.yaml
-kubectl --context=istio-3 apply -n istio-system -f $ISTIO_DIR/samples/multicluster/expose-services.yaml
+kubectl --context=istio-3 apply -n istio-system -f ./istio/expose-services.yaml
 
 # Set up Endpoint Discovery
 istioctl x create-remote-secret  --context=istio-2 --name=cluster2 | kubectl apply -f - --context=istio-1

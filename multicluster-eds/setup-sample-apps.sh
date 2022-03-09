@@ -9,16 +9,16 @@ kubectl label --context=istio-2 namespace sample istio-injection=enabled
 kubectl label --context=istio-3 namespace sample istio-injection=enabled
 
 export ISTIO_DIR=/home/solo/dev/istio/istio-1.12.1
-kubectl apply --context=istio-1 -f $ISTIO_DIR/samples/helloworld/helloworld.yaml -l service=helloworld -n sample
-kubectl apply --context=istio-2 -f $ISTIO_DIR/samples/helloworld/helloworld.yaml -l service=helloworld -n sample
-kubectl apply --context=istio-3 -f $ISTIO_DIR/samples/helloworld/helloworld.yaml -l service=helloworld -n sample
+kubectl apply --context=istio-1 -f ./istio/helloworld.yaml -l service=helloworld -n sample
+kubectl apply --context=istio-2 -f ./istio/helloworld.yaml -l service=helloworld -n sample
+kubectl apply --context=istio-3 -f ./istio/helloworld.yaml -l service=helloworld -n sample
 
 
-kubectl apply --context=istio-1 -f $ISTIO_DIR/samples/helloworld/helloworld.yaml -l version=v1 -n sample
-kubectl apply --context=istio-2 -f $ISTIO_DIR/samples/helloworld/helloworld.yaml -l version=v1 -n sample
-kubectl apply --context=istio-3 -f $ISTIO_DIR/samples/helloworld/helloworld.yaml -l version=v2 -n sample
+kubectl apply --context=istio-1 -f ./istio/helloworld.yaml -l version=v1 -n sample
+kubectl apply --context=istio-2 -f ./istio/helloworld.yaml -l version=v1 -n sample
+kubectl apply --context=istio-3 -f ./istio/helloworld.yaml -l version=v2 -n sample
 
 
-kubectl apply --context=istio-1 -f $ISTIO_DIR/samples/sleep/sleep.yaml -n sample
-kubectl apply --context=istio-2 -f $ISTIO_DIR/samples/sleep/sleep.yaml -n sample
-kubectl apply --context=istio-3 -f $ISTIO_DIR/samples/sleep/sleep.yaml -n sample
+kubectl apply --context=istio-1 -f ./istio/sleep.yaml -n sample
+kubectl apply --context=istio-2 -f ./istio/sleep.yaml -n sample
+kubectl apply --context=istio-3 -f ./istio/sleep.yaml -n sample
