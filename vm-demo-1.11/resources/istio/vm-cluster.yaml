@@ -1,0 +1,30 @@
+apiVersion: install.istio.io/v1alpha1
+metadata:
+  namespace: istio-system
+  name: istio-control-plane
+kind: IstioOperator
+spec:
+  profile: preview
+  meshConfig:
+    defaultConfig:    
+      proxyMetadata:
+        ISTIO_META_DNS_CAPTURE: "true"
+        ISTIO_META_DNS_AUTO_ALLOCATE: "true"  
+  components:
+    pilot:
+      k8s:
+        env:
+          - name: PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION
+            value: "true"
+          - name: PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS
+            value: "true"       
+  values:
+    global:
+      meshID: mesh1
+      multiCluster:
+        # ${CLUSTER_ID}
+        clusterName: cluster1
+      # ${CLUSTER_NETWORK}
+      network: main-network
+
+

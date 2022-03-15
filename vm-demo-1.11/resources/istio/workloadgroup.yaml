@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: WorkloadGroup
+metadata:
+  # ${VM_APP}
+  name: python-http
+  # ${VM_NAMESPACE}
+  namespace: vm-services
+spec:
+  metadata:
+    annotations: {}
+    labels:
+      # ${VM_APP}
+      app: python-http
+  template:
+    # ${VM_NETWORK}
+    network: "vm-network"
+    # ${SERVICE_ACCOUNT}
+    serviceAccount: my-vm
+
