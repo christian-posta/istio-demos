@@ -7,7 +7,7 @@
 VM_NAME="ceposta-disconnected-vm"
 VM_ZONE="us-central1-a"
 
-
+LINUX_RUNAS_USER="ceposta"
 VM_APP="python-http"
 VM_NAMESPACE="vm-services"
 WORK_DIR="./work"
