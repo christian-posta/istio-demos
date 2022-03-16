@@ -19,3 +19,8 @@ kubectl create ns istioinaction
 kubectl label namespace istioinaction istio-injection=enabled
 kubectl apply -f resources/httpbin.yaml -n istioinaction
 kubectl apply -f resources/sleep.yaml -n istioinaction
+
+
+# prep vm namespace
+kubectl create namespace $VM_NAMESPACE
+kubectl create serviceaccount $SERVICE_ACCOUNT -n $VM_NAMESPACE

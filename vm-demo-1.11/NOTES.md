@@ -42,3 +42,9 @@ curl vmservice.example.com
 curl -s localhost:15000/config_dump | istioctl pc listeners --file -
 
 echo {} | grpcurl -d @ -cacert ./files/root-cert.pem istiod.istio-system.svc:15012 envoy.service.discovery.v3.AggregatedDiscoveryService/StreamAggregatedResources
+
+# Running the systemd unit file as root:
+
+see resources/systemd-unit
+cat /lib/systemd/system/istio.service 
+Will need to `sudo systemctl daemon-reload` when making a change to the systemd-unit files...

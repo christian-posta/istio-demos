@@ -14,7 +14,10 @@ cp resources/package/start-istio.sh ${WORK_DIR}
 cp resources/package/stop-istio.sh ${WORK_DIR}
 cp resources/package/tail-istio-log.sh ${WORK_DIR}
 cp resources/package/run-http.sh ${WORK_DIR}
+cp resources/package/run-http-for-whitebox.sh ${WORK_DIR}
 cp resources/package/index.html ${WORK_DIR}
+cp resources/package/istio.service ${WORK_DIR}
+cp resources/package/prep-vm-nonroot.sh ${WORK_DIR}
 
 # for auto registration
 

@@ -24,3 +24,5 @@ spec:
       bind: 127.0.0.1
       hosts:
       - "istioinaction/httpbin.istioinaction.svc.cluster.local"
+    - hosts:
+      - "istio-system/*"

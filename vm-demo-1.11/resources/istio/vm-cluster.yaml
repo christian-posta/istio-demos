@@ -4,7 +4,7 @@ metadata:
   name: istio-control-plane
 kind: IstioOperator
 spec:
-  profile: preview
+  profile: minimal
   meshConfig:
     defaultConfig:    
       proxyMetadata:
