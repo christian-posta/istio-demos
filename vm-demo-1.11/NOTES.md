@@ -38,6 +38,10 @@ tail -f /var/log/istio/istio.log
 
 curl vmservice.example.com
 
+# calling an in-mesh service from the VM (in Whitebox mode)
+
+curl -H "Host: httpbin.istioinaction.svc.cluster.local" localhost:8000/headers
+
 # using proxy-config from file
 curl -s localhost:15000/config_dump | istioctl pc listeners --file -
 
