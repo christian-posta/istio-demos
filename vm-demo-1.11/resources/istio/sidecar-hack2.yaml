@@ -1,0 +1,56 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: whitebox-vm
+  namespace: vm-services 
+spec:
+  workloadSelector:
+    labels:
+      app: sleep
+  ingress:
+    - port:
+        number: 9090
+        protocol: HTTP
+        name: python-http
+      captureMode: NONE
+      bind: 0.0.0.0
+      defaultEndpoint: 127.0.0.1:7001
+  egress:
+    - port: 
+        number: 8888
+        protocol: HTTP_PROXY
+        name: httpbin-egress
+      captureMode: NONE
+      bind: 127.0.0.1
+      hosts:
+      - "istioinaction/httpbin.istioinaction.svc.cluster.local"
+    - port: 
+        number: 15010
+        protocol: TCP
+        name: grpc-xds
+      hosts:
+        - "istio-system/istiod.istio-system.svc.cluster.local"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: localhost-httpbin
+  namespace: vm-services 
+spec:
+  workloadSelector:
+    labels:
+      app: sleep
+  configPatches:
+  - applyTo: VIRTUAL_HOST
+    match:
+      context: SIDECAR_OUTBOUND 
+      routeConfiguration:
+        name: "httpbin.istioinaction.svc.cluster.local:8888"
+    patch:
+      operation: MERGE
+      value:
+        domains:
+          - localhost:8888
+
+
+

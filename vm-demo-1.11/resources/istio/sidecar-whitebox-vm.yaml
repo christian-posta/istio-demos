@@ -17,8 +17,8 @@ spec:
       defaultEndpoint: 127.0.0.1:7001
   egress:
     - port: 
-        number: 8000
-        protocol: HTTP
+        number: 8888
+        protocol: HTTP_PROXY
         name: httpbin-egress
       captureMode: NONE
       bind: 127.0.0.1

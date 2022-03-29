@@ -1,0 +1,75 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: whitebox-vm
+  namespace: vm-services 
+spec:
+  workloadSelector:
+    labels:
+      app: sleep
+  ingress:
+    - port:
+        number: 9090
+        protocol: HTTP
+        name: python-http
+      captureMode: NONE
+      bind: 0.0.0.0
+      defaultEndpoint: 127.0.0.1:7001
+  egress:
+    - port: 
+        number: 8888
+        protocol: HTTP_PROXY
+        name: httpbin-egress
+      captureMode: NONE
+      bind: 127.0.0.1
+      hosts:
+#      - "istioinaction/httpbin.istioinaction.svc.cluster.local"
+      - "vm-services/localhost.local"
+    - port: 
+        number: 15010
+        protocol: TCP
+        name: grpc-xds
+      hosts:
+        - "istio-system/istiod.istio-system.svc.cluster.local"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: localhost-httpbin
+  namespace: vm-services
+spec:
+  hosts:
+  - "localhost.local"
+  location: MESH_INTERNAL
+  ports:
+  - number: 8888
+    name: http
+    protocol: HTTP_PROXY 
+  resolution: STATIC
+  endpoints:
+  - address: 127.0.0.1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin-localhost
+  namespace: vm-services
+spec:
+  exportTo:
+  - "*"
+  gateways:
+  - "mesh"
+  hosts:
+  - "localhost.local"
+  - "127.0.0.1"
+  http:
+  #- match:  
+  #    - port: 8888
+  #    - authority:
+  #        exact: "httpbin.istioinaction.svc.cluster.local:8000"
+  - route:
+    - destination:
+        host: httpbin.istioinaction.svc.cluster.local
+        port:
+          number: 8000
+
