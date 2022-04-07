@@ -5,7 +5,7 @@ metadata:
 spec:
   profile: default
   meshConfig:
-    trustDomain: example.org
+    trustDomain: trust.solo.io
   values:
     # This is used to customize the sidecar template, to allow mounting the Workload API socket.
     sidecarInjectorWebhook:

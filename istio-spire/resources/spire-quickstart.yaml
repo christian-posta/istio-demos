@@ -175,7 +175,7 @@ metadata:
   namespace: spire
 data:
   k8s-workload-registrar.conf: |
-    trust_domain = "example.org"
+    trust_domain = "trust.solo.io"
     server_socket_path = "/run/spire/sockets/server.sock"
     cluster = "demo-cluster"
     mode = "crd"
@@ -233,7 +233,7 @@ data:
       bind_address = "0.0.0.0"
       bind_port = "8081"
       socket_path = "/run/spire/sockets/server.sock"
-      trust_domain = "example.org"
+      trust_domain = "trust.solo.io"
       data_dir = "/run/spire/data"
       log_level = "DEBUG"
       ca_key_type = "rsa-2048"
@@ -434,7 +434,7 @@ data:
       server_port = "8081"
       socket_path = "/run/secrets/workload-spiffe-uds/socket"
       trust_bundle_path = "/run/spire/bundle/root-cert.pem"
-      trust_domain = "example.org"
+      trust_domain = "trust.solo.io"
     }
     plugins {
       NodeAttestor "k8s_psat" {
